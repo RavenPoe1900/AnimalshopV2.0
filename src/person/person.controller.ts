@@ -14,6 +14,7 @@ import {CreatePersonDto} from './dto/create-person.dto';
 import {UpdatePersonDto} from './dto/update-person.dto';
 import {PersonEntity} from "./entities/person.entity";
 import {Ids} from "../dto/ids.dto";
+import {createHmac} from "crypto";
 
 @Controller('person')
 export class PersonController {
@@ -24,6 +25,9 @@ export class PersonController {
     @Post()
     create(@Body() createPersonDto: CreatePersonDto) {
         const newPersonDto = new PersonEntity();
+        createPersonDto.password = createHmac(process.env.hashKeyAlgorithm, process.env.hashKeySecret)
+                .update(createPersonDto.password)
+                .digest('hex');
         return this.appService.create(createPersonDto, newPersonDto, null, this.personService);
     }
 
@@ -40,6 +44,11 @@ export class PersonController {
 
     @Patch(':id')
     update(@Param('id') id: string, @Body() updatePersonDto: UpdatePersonDto) {
+        if(updatePersonDto.password !== undefined){
+             updatePersonDto.password = createHmac(process.env.hashKeyAlgorithm, process.env.hashKeySecret)
+                .update(updatePersonDto.password)
+                .digest('hex');
+        }
         return this.appService.update(+id, updatePersonDto, null, this.personService);
     }
 

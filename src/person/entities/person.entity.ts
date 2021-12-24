@@ -1,10 +1,11 @@
 import {IsString} from 'class-validator';
 import {
   Column, Entity,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn, Unique,
 } from 'typeorm';
 
 @Entity()
+@Unique(['username'])
 export class PersonEntity  {
   @PrimaryGeneratedColumn()
   id: number;

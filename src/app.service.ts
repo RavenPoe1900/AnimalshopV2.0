@@ -60,6 +60,18 @@ export class AppService {
         }
     }
 
+    async findUserName(id, model) {
+        try {
+            const resp = await model.findOneUserName(id);
+            if (!resp) {
+                throw new NotFoundException(`This id #${id} does not exist`)
+            }
+            return resp;
+        } catch (error) {
+            return new ConflictException((error.message + " Possible error: The id is not of type number"));
+        }
+    }
+
     async update(id, dto, validation, model) {
         const toUpdate = await this.findOne(id, model);
         try {

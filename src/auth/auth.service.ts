@@ -2,18 +2,20 @@ import {Injectable} from '@nestjs/common';
 import {JwtService} from '@nestjs/jwt';
 import {PersonService} from "../person/person.service";
 import {createHmac} from "crypto";
+import {AppService} from "../app.service";
+import {ConfigService} from "@nestjs/config";
 
 @Injectable()
 export class AuthService {
     constructor(
         private personService: PersonService,
-        private jwtService: JwtService,
-    ) {
+        private appService: AppService,
+        private jwtService: JwtService) {
     }
 
 
     async validateUser(username: string, pass: string): Promise<any> {
-        const user = (await this.personService.findOne(username)) as any;
+        const user = (await this.appService.findUserName(username, this.personService)) as any;
 
         if (user) {
             const hash = createHmac(process.env.hashKeyAlgorithm, process.env.hashKeySecret)
@@ -21,16 +23,15 @@ export class AuthService {
                 .digest('hex');
             if (hash === user.password) {
                 const {password, ...result} = user;
-                return result;
+                return password;
             }
         }
         return null;
     }
 
-    async login(person: any) {
-        const payload = {username: person.name, objectId: person._id.toString()};
+    async login(password: string) {
         return {
-            access_token: this.jwtService.sign(payload),
+            access_token: password,
         };
     }
 }

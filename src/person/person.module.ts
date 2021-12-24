@@ -10,7 +10,8 @@ import {AppService} from "../app.service";
 @Module({
     imports: [TypeOrmModule.forFeature([PersonEntity])],
     controllers: [PersonController],
-    providers: [PersonService, AppService]
+    providers: [PersonService, AppService],
+    exports:[PersonService],
 })
 export class PersonModule {
 }

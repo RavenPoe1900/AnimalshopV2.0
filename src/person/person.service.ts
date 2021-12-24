@@ -36,6 +36,10 @@ export class PersonService {
         return await this.personRepository.findOne({where: {id: id}});
     }
 
+    async findOneUserName(id) {
+        return await this.personRepository.findOne({where: {username: id}});
+    }
+
     async update(id: number, data: Partial<UpdatePersonDto>) {
         await this.personRepository.update({id}, data);
         return await this.personRepository.findOne({id});

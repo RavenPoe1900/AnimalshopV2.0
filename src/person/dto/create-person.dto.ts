@@ -7,7 +7,7 @@ export class CreatePersonDto {
     readonly username: string;
 
     @IsString()
-    readonly password: string;
+    password: string;
 
     @IsNotEmpty()
     readonly img: string;
