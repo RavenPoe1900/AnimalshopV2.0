@@ -60,8 +60,8 @@ export class AppService {
         }
     }
 
-    async update(dto, id, validation, model) {
-        const toUpdate = this.findOne(id, model);
+    async update(id, dto, validation, model) {
+        const toUpdate = await this.findOne(id, model);
         try {
             const toSave = Object.assign(toUpdate, dto)
             const save = await model.create(toSave);
