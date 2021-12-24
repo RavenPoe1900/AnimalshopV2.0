@@ -19,8 +19,7 @@ export class PetEntity {
   @IsString()
   name: string;
 
-  @OneToOne(() => BreedEntity)
-  @JoinColumn()
+  @ManyToOne(() => BreedEntity, (breed) => breed)
   breed: BreedEntity;
 
   @ManyToOne(() => PersonEntity, (person) => person.id)

@@ -1,16 +1,16 @@
-import { BreedEntity } from "src/breed/entities/breed.entity";
-import { ShopEntity } from "src/shop/entities/shop.entity";
 import {IsNumber} from "class-validator";
 
 export class CreateAnimalDto {
 
-  @IsNumber()
-  amount: number;
+    @IsNumber()
+    amount: number;
 
-  @IsNumber()
-  price: number;
+    @IsNumber()
+    price: number;
 
-  breed: BreedEntity;
+    @IsNumber()
+    breed: number;
 
-  shop: ShopEntity['id'];
+    @IsNumber()
+    shop: number;
 }

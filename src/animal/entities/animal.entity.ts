@@ -22,8 +22,7 @@ export class AnimalEntity {
   @IsNumber()
   amount: number;
 
-  @OneToOne(() => BreedEntity )
-  @JoinColumn()
+  @ManyToOne(() => BreedEntity, (breed) => breed.animals)
   breed: BreedEntity ;
 
   @ManyToOne(() => ShopEntity , (shop) => shop.animals)

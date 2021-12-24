@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
-import {CreatePetDto} from "../pet/dto/create-pet.dto";
 import {UpdatePetDto} from "../pet/dto/update-pet.dto";
 import {PersonEntity} from "./entities/person.entity";
 import {CreatePersonDto} from "./dto/create-person.dto";
+import {UpdatePersonDto} from "./dto/update-person.dto";
 
 @Injectable()
 export class PersonService {
@@ -14,21 +14,29 @@ export class PersonService {
     ) {
     }
 
-    async findAll() {
-        return await this.personRepository.find();
-    }
 
     async create(data: CreatePersonDto) {
-        const pet = this.personRepository.create(data);
+        const person = this.personRepository.create(data);
         await this.personRepository.save(data);
-        return pet;
+        return person;
     }
 
-    async read(id: number) {
+    async count() {
+        return await this.personRepository.count();
+    }
+
+    async findAll(limit, skippedItems) {
+        return await this.personRepository.createQueryBuilder()
+            .offset(skippedItems)
+            .limit(limit)
+            .getMany()
+    }
+
+    async findOne(id) {
         return await this.personRepository.findOne({where: {id: id}});
     }
 
-    async update(id: number, data: Partial<UpdatePetDto>) {
+    async update(id: number, data: Partial<UpdatePersonDto>) {
         await this.personRepository.update({id}, data);
         return await this.personRepository.findOne({id});
     }
@@ -36,9 +44,5 @@ export class PersonService {
     async remove(id: number) {
         await this.personRepository.delete({id});
         return {deleted: true};
-    }
-
-     async findOne(id: any) {
-        return await this.personRepository.findOne(id);
     }
 }

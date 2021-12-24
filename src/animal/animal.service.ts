@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
-import {UpdatePetDto} from "../pet/dto/update-pet.dto";
 import {AnimalEntity} from "./entities/animal.entity";
 import {CreateAnimalDto} from "./dto/create-animal.dto";
+import {UpdateAnimalDto} from "./dto/update-animal.dto";
 
 @Injectable()
 export class AnimalService {
@@ -17,19 +17,29 @@ export class AnimalService {
         return await this.animalRepository.find();
     }
 
-    // async create(data: CreateAnimalDto) {
-    //     const animal = this.animalRepository.create(data);
-    //     await this.animalRepository.save(data);
-    //     return animal;
-    // }
+    async create(data: CreateAnimalDto) {
+        const newAnimalDto = new AnimalEntity();
+        const animalToSave = Object.assign(newAnimalDto, data)
+        const animal = this.animalRepository.create(animalToSave);
+        await this.animalRepository.save(animalToSave);
+        return animal;
+    }
 
     async read(id: number) {
         return await this.animalRepository.findOne({where: {id: id}});
     }
 
-    async update(id: number, data: Partial<UpdatePetDto>) {
-        await this.animalRepository.update({id}, data);
-        return await this.animalRepository.findOne({id});
+    async update(id: number, data: Partial<UpdateAnimalDto>) {
+        // const toUpdate = await this.
+        // const newAnimalDto = new AnimalEntity();
+        // const updateAnimalDto = Object.assign(newAnimalDto,)
+        // await this.animalRepository.update({id}, data);
+        // return await this.animalRepository.findOne({id});
+        return [];
+    }
+
+    async count() {
+        return await this.animalRepository.count();
     }
 
     async remove(id: number) {
@@ -37,7 +47,7 @@ export class AnimalService {
         return {deleted: true};
     }
 
-     async findOne(id: number) {
+    async findOne(id: number) {
         return await this.animalRepository.findOne(id);
     }
 }

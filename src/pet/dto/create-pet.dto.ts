@@ -4,16 +4,18 @@ import {BreedEntity} from "../../breed/entities/breed.entity";
 import {AnimalEntity} from "../../animal/entities/animal.entity";
 
 export class CreatePetDto {
-  @IsNumber()
-  id: number;
+
 
   @IsString()
   name: string;
 
-  breed: BreedEntity;
+  @IsNumber()
+  breed: number;
 
-  person: PersonEntity;
+  @IsNumber()
+  person: number;
 
-  animal: AnimalEntity;
+  @IsNumber()
+  animal: number;
 
 }

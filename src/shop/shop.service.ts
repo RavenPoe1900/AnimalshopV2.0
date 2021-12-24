@@ -1,33 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
-import {CreateShopDto} from "./dto/create-shop.dto";
-import {UpdatePetDto} from "../pet/dto/update-pet.dto";
 import {ShopEntity} from "./entities/shop.entity";
+import {CreateShopDto} from "./dto/create-shop.dto";
+import {UpdateShopDto} from "./dto/update-shop.dto";
 
 @Injectable()
 export class ShopService {
-   constructor(
+    constructor(
         @InjectRepository(ShopEntity)
         private shopRepository: Repository<ShopEntity>,
     ) {
     }
 
-    async findAll() {
-        return await this.shopRepository.find();
-    }
-
     async create(data: CreateShopDto) {
-        const pet = this.shopRepository.create(data);
+        const shop = this.shopRepository.create(data);
         await this.shopRepository.save(data);
-        return pet;
+        return shop;
     }
 
-    async read(id: number) {
+    async count() {
+        return await this.shopRepository.count();
+    }
+
+    async findAll(limit, skippedItems) {
+        return await this.shopRepository.createQueryBuilder()
+            .offset(skippedItems)
+            .limit(limit)
+            .getMany()
+    }
+
+    async findOne(id) {
         return await this.shopRepository.findOne({where: {id: id}});
     }
 
-    async update(id: number, data: Partial<UpdatePetDto>) {
+    async update(id: number, data: Partial<UpdateShopDto>) {
         await this.shopRepository.update({id}, data);
         return await this.shopRepository.findOne({id});
     }
@@ -35,9 +42,5 @@ export class ShopService {
     async remove(id: number) {
         await this.shopRepository.delete({id});
         return {deleted: true};
-    }
-
-     async findOne(id: number) {
-        return await this.shopRepository.findOne(id);
     }
 }

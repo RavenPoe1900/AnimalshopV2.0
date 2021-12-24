@@ -1,5 +1,6 @@
 import { IsString } from 'class-validator';
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {AnimalEntity} from "../../animal/entities/animal.entity";
 
 @Entity()
 export class BreedEntity  {
@@ -9,4 +10,7 @@ export class BreedEntity  {
   @Column({ type: 'varchar' })
   @IsString()
   name: string;
+
+  @OneToMany(() => AnimalEntity , (animal) => animal.shop)
+  animals: AnimalEntity [];
 }
