@@ -30,7 +30,7 @@ export class AnimalController {
 
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateAnimalDto: UpdateAnimalDto) {
-        return this.appService.findByIdAndUpdate(+id, updateAnimalDto, null, this.animalService);
+        return this.appService.update(+id, updateAnimalDto, null, this.animalService);
     }
 
     @Delete(':id')

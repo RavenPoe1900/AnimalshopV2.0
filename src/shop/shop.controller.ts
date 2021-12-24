@@ -31,7 +31,7 @@ export class ShopController {
 
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateShopDto: UpdateShopDto) {
-        return this.appService.findByIdAndUpdate(+id, updateShopDto, null, this.shopService);
+        return this.appService.update(+id, updateShopDto, null, this.shopService);
     }
 
     @Delete(':id')

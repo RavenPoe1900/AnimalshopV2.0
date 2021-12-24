@@ -40,7 +40,7 @@ export class PersonController {
 
     @Patch(':id')
     update(@Param('id') id: string, @Body() updatePersonDto: UpdatePersonDto) {
-        return this.appService.findByIdAndUpdate(+id, updatePersonDto, null, this.personService);
+        return this.appService.update(+id, updatePersonDto, null, this.personService);
     }
 
     @Delete(':id')

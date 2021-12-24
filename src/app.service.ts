@@ -9,8 +9,8 @@ export class AppService {
 
     async create(dto, newDto, validation, model) {
         try {
-            const ToSave = Object.assign(newDto, dto)
-            const save = await model.create(ToSave);
+            const toSave = Object.assign(newDto, dto)
+            const save = await model.create(toSave);
             return save;
         } catch (error) {
             return new ConflictException(error.message);
@@ -60,14 +60,28 @@ export class AppService {
         }
     }
 
+    async update(dto, id, validation, model) {
+        const toUpdate = this.findOne(id, model);
+        try {
+            const toSave = Object.assign(toUpdate, dto)
+            const save = await model.create(toSave);
+            return save;
+        } catch (error) {
+            return new ConflictException(error.message);
+        }
+
+    }
+
     async removeOne(id, model): Promise<any | null> {
         try {
-            if (!id) {
+            if (!id
+            ) {
                 return new ConflictException("Possible error: The id is not of type number")
             }
             const remove = model.remove(id);
             return remove;
-        } catch (error) {
+        } catch
+            (error) {
             return new ConflictException(error.message);
         }
     }

@@ -28,10 +28,10 @@ export class PetController {
         return this.appService.findOne(+id, this.petService);
     }
 
-    // @Patch(':id')
-    // update(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
-    //     return this.appService.findByIdAndUpdate(+id, updatePetDto, null, this.petService);
-    // }
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
+        return this.appService.update(+id, updatePetDto, null, this.petService);
+    }
 
     @Delete(':id')
     remove(@Param('id') id: string) {

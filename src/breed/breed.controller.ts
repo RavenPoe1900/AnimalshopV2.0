@@ -33,7 +33,7 @@ export class BreedController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBreedDto: UpdateBreedDto) {
-    return this.appService.findByIdAndUpdate(+id, updateBreedDto, null, this.breedService);
+    return this.appService.update(+id, updateBreedDto, null, this.breedService);
   }
 
   @Delete(':id')
